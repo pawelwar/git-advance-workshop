@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# This script is searching differences between output from regular git diff and patience once.
+#
+# Example of usage:
+# ./diffcomparator ~/projects/github.JodaOrg.joda-time
+# (lines  11)     git diff [--patience] c9f2764c..c1285b98 -- src/main/java/org/joda/time/tz/src/africa
+# (lines   8)     git diff [--patience] d982caa3..c5c681c9 -- src/main/java/org/joda/time/tz/src/northamerica
+# (lines   8)     git diff [--patience] ff0473de..acff9414 -- src/main/java/org/joda/time/tz/src/africa
+# (lines  20)     git diff [--patience] eda629ff..c61c1f3f -- src/main/java/org/joda/time/tz/src/europe
+#
+# if you compare:
+#   git diff c9f2764c..c1285b98 -- src/main/java/org/joda/time/tz/src/africa
+# with
+#   git diff --patience c9f2764c..c1285b98 -- src/main/java/org/joda/time/tz/src/africa
+# you will find that 11 lines are different.
+
+REPO_PATH=$1
+MAX_NUMBER_OF_COMMITS=1000
+
+TMP_FILE_REGULAR_DIFF=/tmp/regular.txt
+TMP_FILE_PATIENCE_DIFF=/tmp/patience.txt
+
+cd $REPO_PATH
+
+for i in `seq 5 $MAX_NUMBER_OF_COMMITS`;
+do
+        # check if commit validate_commit_exists
+        parent_nr=$((i+1))
+        git cat-file -e HEAD~$parent_nr > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+          exit
+        fi
+
+        current_hash=$(git rev-parse --short HEAD~$i)
+        parent_hash=$(git rev-parse --short HEAD~$parent_nr)
+
+        # start processing next commit
+        echo -ne "Commit: $i $parent_hash..$current_hash\033[0K\r"
+
+        FILES_TO_CHECK=$(git diff $parent_hash..$current_hash --name-only)
+
+        for single_file in $FILES_TO_CHECK;
+        do
+            # collect diffs
+            git diff $current_hash..$parent_hash -- $single_file > $TMP_FILE_REGULAR_DIFF
+            git diff --patience $current_hash..$parent_hash -- $single_file > $TMP_FILE_PATIENCE_DIFF
+
+            # compare output from regular and patience diff
+            calculated_diff=$(diff $TMP_FILE_REGULAR_DIFF $TMP_FILE_PATIENCE_DIFF | wc -l)
+
+            # if there is any diffrence show it to user
+            if [[ $calculated_diff -ne "0" ]]; then
+                echo -ne "(lines ${calculated_diff:5})"
+                echo -e "     git diff [--patience] $current_hash..$parent_hash -- $single_file"
+            fi
+        done
+done
