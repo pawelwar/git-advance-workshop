@@ -2,11 +2,11 @@
 
 ## WORKTREE (od wersji 2.5)
 
-Umożliwia równoległą pracę na kopiach projektu bez konieczności przechowywania wszystkich danych kilkukrotnie.
+Umożliwia równoległą pracę na kopiach projektu bez konieczności przechowywania pełnej historii zmian kilkukrotnie. Utworzone worktree __współdzielą__ historie z głównym repozytorium.
 
 #### Zadanie
 
-   1. Sprawdź aktualnie utworzone worktree `git worktree list`
+   1. Sprawdź aktualnie istniejące worktree `git worktree list`
    2. Dodaj nowe worktree `git worktree add /tmp/workshop_copy`
    3. Sprawdź czy nowe worktree zostało poprawnie dodane: `git worktree list`
 
@@ -17,7 +17,7 @@ Pytania:
 
 #### Rozwiązanie
 
-W utworzonym worktree nie ma katalogu `.git` jest za to plik `.git`, który wskazuje na główne repo.
+W utworzonym worktree nie ma katalogu `.git` jest za to plik `.git`, który wskazuje na główne repozytorium.
 Ograniczenie: główny katalog i worktree nie mogą być ustawione na ten sam branch. Worktree ma osobny index, HEAD, reflog ale wspólne obiekty, branche. Jeżeli worktree i główne repo ustawione było by na ten sam branch to jakakolwiek zmiana powodowała by skutki uboczne na drugim repozytorium.
 
 ## RERERE
@@ -28,7 +28,7 @@ Git zapamiętuje w jaki sposób został rozwiązany konflikt i automatycznie wyk
 
   1. Dla repozytorium five włącz mechanizm rerere:  `git config --local rerere.enabled true`
   2. Sprawdź ostatni commit w `rerere_core_branch`. Będzie on mergowany do feature branchy.
-  3. Przełącz się na `rerere_feature_branch_v1` i sprawdź ostatni commit. Zmerdżuj zmiany z `rerere_core_branch`. Pojawi się konflikt. Rozwiąż go ustawiając, że konik jest po prostu OK.
+  3. Przełącz się na `rerere_feature_branch_v1` i sprawdź ostatni commit. Zmerdżuj zmiany z brancha `rerere_core_branch`. Pojawi się konflikt. Rozwiąż go ustawiając, że jednorożec jest po prostu OK.
 
 W kolejnych branchach:
 
@@ -44,24 +44,24 @@ Warto zwrócić uwagę na komunikaty:
 
 ## BUNDLE
 
-Pozwala na eksport paczki commitów (i powiązanych danych) do pojedyńczego pliku i pobranie ich w nowym miejscu
+Pozwala na eksport paczki commitów (i powiązanych danych) do pojedyńczego pliku. Pliki te mogą zostać np. wysłane e-maile i zaczytane w innym repozytorium.
 
 #### Zadanie
 
-Pracujemy na dwóch katalogach z __tym samym__ repozytorium (Dwukrotne `git clone ...` do różnych katalogów).
+Należy dobrać się w pary. Pierwsza osoba będzie odpowiedzialna za eksport danych, druga za import. Dane w postaci `bundle` należy przesłać za pomocą e-mail, slack, ftp...
 
-Pierwsze repozytorium
+__Pierwsza osoba__ (eksport danych)
 
    1. Utwórz dwa nowe commity
    2. Wykonaj eksport tylko ostatniego commita za pomocą: `git bundle create /tmp/only_last_commit HEAD~1..HEAD`
    3. Wykonaj eksport dwóch ostatnich commitów za pomocą `git bundle create /tmp/two_commits HEAD~2..HEAD`
 
-Drugie repozytorium
+__Druga osoba__ (import danych)
 
-   4. Pobierz paczke z ostatnim commitem `git fetch /tmp/only_last_commit`. Co się stało?
-   5. Pobierz paczkę z dwoma ostatnimi commitami `git fetch /tmp/two_commits`. W jaki sposób zrobić aby master wskazywał na ostatni pobrany commit?
+   1. Pobierz paczke z ostatnim commitem `git fetch /tmp/only_last_commit` lub `git pull /tmp/only_last_commit`. Co się stało?
+   2. Pobierz paczkę z dwoma ostatnimi commitami `git fetch /tmp/two_commits` lub `git pull /tmp/two_commits`.
 
-Zamiast `git fetch /tmp/two_commits` można skorzystać również z komendy `git pull /tmp/two_commits`.
+Skorzystanie z `git fetch ...` wymaga ręcznego przesunięcia referencji `master` na ostatni pobrany commit.   
 
 ## BISECT
 
@@ -86,6 +86,6 @@ Jeżeli w którymkolwiek momencie pomylisz się, skorzystaj z komendy `git bisec
 
 Zamiast ręcznie iterować się po commitach po kroku `3.` wykonaj `git bisect run /path-to-script/validate-five.sh`
 
- __Rozwiązanie__
+ #### Rozwiązanie
 
 Powinien zostać znaleziony commit `3b10ea7027d684a65c4658f1caea2f9a33d9e6f6`

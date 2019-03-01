@@ -193,6 +193,8 @@ Wystarczy na nowo dodać wszystkie pliki do indeksu, czyli wywołać `git add .`
 * `git diff --cached` lub `git diff --staged` porównuje wersje `index` z tym co jest w commit wskazywanym przez HEAD
 * `git diff HEAD` porównuje wersje `working directory` z tym co jest w commit wskazywanym przez HEAD z pominięciem indeksu
 
+![](git-diff-chart.png)
+
 ## STATUS
 
 Komenda `git status` pokazuje w uproszczony sposób różnicę między:
@@ -553,3 +555,7 @@ Komenda `git reflog` lub `git log -g`. Wyświetla listę commitów, na które n
 * `git reflog` lub `git reflog HEAD`
 
 Aby cofnąć się do poprzedniego stanu na branchu master wystarczy wywołać: `git reset --hard master@{1}`
+
+## DIRECTED ACYCLIC GRAPH
+
+![](git-as-a-dag.png)
