@@ -221,7 +221,7 @@ Przydatne podejście relatywne (przedostatni commit HEAD~, dwa commity do tyłu 
 
 #### Zadanie 1
 
-Start: `git clean -fd && git checkout master && git reset --hard 01541a9`
+Start: `git clean -fd && git checkout master && git branch -D feature/update-doc && git checkout -b feature/update-doc dfa4f7a`
 
 Jak z dwóch ostatnich commitów zrobić jeden, korzystając tylko z `git reset` i `git commit`?
 
