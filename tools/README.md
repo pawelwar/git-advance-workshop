@@ -77,7 +77,7 @@ W ramach testów regresyjnych okazało się, że w master znajduję się błąd.
 
 Jeżeli w którymkolwiek momencie pomylisz się, skorzystaj z komendy `git bisect reset`
 
-  4. Za pomocą skryptu [validate-five.sh](validate-five.sh) sprawdź czy aktualny stan projektu zawiera błąd. Warto pamiętać o ustawieniu `chmod +x validate-five.sh`.
+  4. Za pomocą [scripts/validate-five.sh](scripts/validate-five.sh) sprawdź czy aktualny stan projektu zawiera błąd. Warto pamiętać o ustawieniu `chmod +x validate-five.sh`.
      - Jeżeli commit jest OK wykonaj: `git bisect good`
      - Jeżeli commit zawiera błąd wykonaj: `git bisect bad`
   5. Po kilku iterakcjach zostanie wskazany pierwszy commit który zawiera błąd.

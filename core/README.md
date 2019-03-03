@@ -8,8 +8,8 @@ Z czego składa się commit?
 
 #### Rozwiązanie
 
-* `git show --format=raw HASH`
-* `git cat-file -p HASH`
+* `git show --format=raw COMMIT`
+* `git cat-file -p COMMIT`
 
 Commit składa się z:
 ```
@@ -76,7 +76,7 @@ Poruszanie się w sposób "relatywny"
 * `~~~~` `~1`, `~99`, `~N` cofamy się o N commitów do tyłu
 * `^`, `^1`, `^2` cofamy się o jeden do tyłu wybierając odpowiednie rozgałęzienie
 * dozwolone `^^^` - cofamy się o 3 commity do tyłu
-* a nawet `~2^^~5` lub `HASH~3^^`
+* a nawet `~2^^~5` lub `COMMIT~3^^`
 
 W jaki sposób dojść z `01541a9` do `e2e7a6b`?
 
@@ -88,7 +88,7 @@ W jaki sposób dojść z `01541a9` do `e2e7a6b`?
 
 ## DESCRIBE
 
-Komenda `git describe HASH` zwraca alternatywny identyfikator commita.
+Komenda `git describe COMMIT` zwraca alternatywny identyfikator commita.
 
 Przykładowy identyfikator: `v0.8.0-200-g01541a9`. Zbudowany jest z:
 * `v0.8.0` najbliższy tag
@@ -193,7 +193,7 @@ Wystarczy na nowo dodać wszystkie pliki do indeksu, czyli wywołać `git add .`
 * `git diff --cached` lub `git diff --staged` porównuje wersje `index` z tym co jest w commit wskazywanym przez HEAD
 * `git diff HEAD` porównuje wersje `working directory` z tym co jest w commit wskazywanym przez HEAD z pominięciem indeksu
 
-![](git-diff-chart.png)
+![](images/git-diff.png)
 
 ## STATUS
 
@@ -205,15 +205,19 @@ Komenda `git status` pokazuje w uproszczony sposób różnicę między:
 
 Branch to tylko wskaźnik (pointer, referencja) na commita.
 
-Komenda `git reset --strategia NOWY_HASH` przesuwa aktualny branch na wskazany commit.
+Komenda `git reset --strategia NOWY_COMMIT_HASH` przesuwa aktualny branch na wskazany commit.
 
 Strategie:
 
-* `git reset --hard <HASH>` przełącza working directory, indeks, pointer
-* `git reset --soft <HASH>` przełącza tylko pointer
-* `git reset --mixed <HASH>` przełącza indeks, pointer
+* `git reset --hard COMMIT` przełącza: working directory (![](images/file-icon.png)), index (![](images/index-icon.png)), branch (![](images/pointer-icon.png))
+* `git reset --soft COMMIT` przełącza: branch (![](images/pointer-icon.png))
+* `git reset --mixed COMMIT` przełącza: index (![](images/index-icon.png)), branch (![](images/pointer-icon.png))
 
-Przydatne podejście relatywne (np. cofnij brancha do poprzedniego commita `git reset --hard HEAD~`).
+Przydatne podejście relatywne (przedostatni commit HEAD~, dwa commity do tyłu HEAD~2).
+
+* `git reset --hard HEAD~2` przełącz aktualny branch na dwie zmiany wstecz
+
+![](images/git-reset.png)
 
 #### Zadanie 1
 
@@ -285,29 +289,40 @@ Lista branchy
 
 Tworzenie nowego brancha
 
-* `git branch NAZWA <HASH>` domyślnie HASH to HEAD
-* `git branch DPA-1` stworzy branch DPA-1 z miejsca gdzie aktualnie wskazuje pointer HEAD
+* `git branch NAZWA` utworzy branch NAZWA wskazujący na aktualnie przełączonego commit'a (na to co w sposób pośredni lub bezpośredni wskazuje HEAD)
+* `git branch NAZWA COMMIT` utworzy branch NAZWA wskazujący na COMMIT
+* Przykładowo `git branch DPA-1 ad3s131s`
 
 Przejście na istniejącego już brancha
 
 * `git checkout NAZWA`
+* `git checkout branchX`
 
-Stworzenie brancha'a NAZWA na bazie commita HASH
+![](images/git-checkout-branch.png)
 
-* `git checkout -b NAZWA HASH`
+Przełączenie się bezpośrednio na commit (tzw. __detached head__)
 
-Usuwanie brancha
+* `git checkout COMMIT`
+* `git checkout d18774`
+
+![](images/git-checkout-commit.png)
+
+Stworzenie brancha'a NAZWA wskazującego na COMMIT i __przełączenie się na niego__
+
+* `git checkout -b NAZWA COMMIT`
+
+Usunięcie brancha
 
 * `git branch -D NAZWA`
 
 #### Przywracanie zawartości plików
 
-`git checkout` ma jeszcze jedno ciekawe zastosowanie. Wszystko co ma na końcu -- plik lub pattern wskazuje git'owi, że ma wykonać daną operacje tylko na danym(ych) plikach.
+`git checkout` ma jeszcze jedno ciekawe zastosowanie. Wszystko co ma na końcu `-- plik` lub `-- pattern` wskazuje git'owi, że ma wykonać daną operacje tylko na danym(ych) plikach.
 
 Przykładowo:
 
 * `git checkout HEAD~100 -- README.md` przywraca README.md z wersji 100 commitów temu
-* `git checkout HEAD~1 -- src` przywraca cały katalog src z wersji jeden commit temu
+* `git checkout HEAD~1 -- src/*` przywraca cały katalog src z wersji jeden commit temu
 
 ## MERGE
 
@@ -344,7 +359,7 @@ Więcej informacji:
 
 Przykład z projektu:
 
-* Skrypt szukający różnic w diff'ach: [diff-comparator](core/diff-comparator)
+* Skrypt szukający różnic w diff'ach: [scripts/diff-comparator](scripts/diff-comparator)
 * `git diff e5856b8..133a777 -- five.js` vs `git diff --patience e5856b8..133a777 -- five.js`
 
 #### Teoria Three way merged
@@ -413,13 +428,13 @@ Dokumentacja git-rebase: https://git-scm.com/docs/git-rebase - co się dzieje z 
 
 ## REBASE interaktywny
 
-Zobaczmy co się stało między: `d612e38` a `6ef3b3c`. Kilka podobnych zmian w podobnym czasie.
-
 #### Zadanie 1
+
+Sprawdź co się stało między: `d612e38` a `6ef3b3c`. Kilka podobnych zmian w podobnym czasie.
 
 * Połącz commity, które aktualizują plik `five.js` w jeden commit.
 * Połącz commity, które aktualizują plik `test.js` w jeden commit.
-* Najnowszy commit to aktualizacja README.md
+* Ostatnim (najnowszym) commitem powinna być aktualizacja dokumentacji w pliku `README.md`
 
 Uwaga: całość można zrobić bez tworzenia i przełączania się na branche. Pracujemy w tzw. `detached` mode.
 
@@ -558,4 +573,4 @@ Aby cofnąć się do poprzedniego stanu na branchu master wystarczy wywołać:
 
 ## DIRECTED ACYCLIC GRAPH
 
-![](git-as-a-dag.png)
+![](images/git-as-a-dag.png)
