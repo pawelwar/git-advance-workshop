@@ -1,5 +1,44 @@
 # GIT TOOLS
 
+## RERERE
+
+Git zapamiętuje w jaki sposób został rozwiązany konflikt i automatycznie wykorzystują tą wiedze przy kolejnych podobnych konfliktach.
+
+> The git rerere functionality is a bit of hidden feature. The name stands for "reuse recorded resolution" and, as the name implies, it allows you to ask Git to remember how you've resolved a hunk conflict so that the next time it sees the same conflict, Git can recolve it for you automatically.
+
+#### Zadanie
+
+  1. Dla repozytorium `five` włącz mechanizm rerere:  `git config --local rerere.enabled true`
+  2. Sprawdź ostatni commit w `rerere_core_branch`. W kolejnych krokach branch ten będzie mergowany do innych branchy.
+
+Pierwszy konflikt
+
+  3. `rerere_feature_branch_v1`
+      - Przełącz się na `rerere_feature_branch_v1`.
+      - Sprawdź ostatni commit.
+      - Zmerdżuj zmiany z brancha `rerere_core_branch`.
+      - Pojawi się konflikt. Rozwiąż go ustawiając, że pony jest po prostu OK. W trakcie rozwiązywania konfliktu wykonaj zmianę __tylko w pierwszej lini pliku__ `README.md`.
+      - Zwróc uwagę na pojawiające się komunikaty ```Recorded preimage for 'README.md'``` i ```Recorded resolution for 'README.md'```.
+
+W kolejnych branchach
+
+  4. `rerere_feature_branch_v2`
+      - Przełącz się na `rerere_feature_branch_v2`.
+      - Sprawdź ostatni commit. Plik `README.md` wygląda analogicznie do tego co było w branchu `rerere_feature_branch_v1` (krok 3).
+      - Wykonaj merge `rerere_core_branch` -> `rerere_feature_branch_v2`.
+      - Czy zostało użyte rozwiązanie zapamiętane przez rerere?    
+      - Zwróć uwagę na pojawiający się komunikat ```Resolved 'README.md' using previous resolution.```
+  5. `rerere_feature_branch_v3`
+      - Przełącz się na `rerere_feature_branch_v3`.
+      - Sprawdź ostatni commit. Zawiera on zmiany w dwóch __oddalonych od siebie__ liniach w pliku `README.md`.
+      - Wykonaj merge `rerere_core_branch` -> `rerere_feature_branch_v3`.
+      - Czy zostało użyte rozwiązanie zapamiętane przez rerere?
+  6. `rerere_feature_branch_v4`
+      - Przełącz się na `rerere_feature_branch_v4`.
+      - Sprawdź ostatni commit. Zawiera on zmiany w dwóch __następujących po sobie__ liniach w pliku `README.md`.
+      - Wykonaj merge `rerere_core_branch` -> `rerere_feature_branch_v4`.
+      - Czy zostało użyte rozwiązanie zapamiętane przez rerere?
+
 ## WORKTREE (od wersji 2.5)
 
 Umożliwia równoległą pracę na kopiach projektu bez konieczności przechowywania pełnej historii zmian kilkukrotnie. Utworzone worktree __współdzielą__ historie z głównym repozytorium.
@@ -19,28 +58,6 @@ Pytania:
 
 W utworzonym worktree nie ma katalogu `.git` jest za to plik `.git`, który wskazuje na główne repozytorium.
 Ograniczenie: główny katalog i worktree nie mogą być ustawione na ten sam branch. Worktree ma osobny index, HEAD, reflog ale wspólne obiekty, branche. Jeżeli worktree i główne repo ustawione było by na ten sam branch to jakakolwiek zmiana powodowała by skutki uboczne na drugim repozytorium.
-
-## RERERE
-
-Git zapamiętuje w jaki sposób został rozwiązany konflikt i automatycznie wykorzystują tą wiedze przy kolejnych podobnych konfliktach.
-
-#### Zadanie
-
-  1. Dla repozytorium five włącz mechanizm rerere:  `git config --local rerere.enabled true`
-  2. Sprawdź ostatni commit w `rerere_core_branch`. Będzie on mergowany do feature branchy.
-  3. Przełącz się na `rerere_feature_branch_v1` i sprawdź ostatni commit. Zmerdżuj zmiany z brancha `rerere_core_branch`. Pojawi się konflikt. Rozwiąż go ustawiając, że jednorożec jest po prostu OK.
-
-W kolejnych branchach:
-
-  4. Przełącz się na `rerere_feature_branch_v2`. Sprawdź ostatni commit. Wykonaj merge z `rerere_core_branch` do `rerere_feature_branch_v2`. Co się stało?
-  5. Przełącz się na `rerere_feature_branch_v3`. Sprawdź ostatni commit. Wykonaj merge z `rerere_core_branch` do `rerere_feature_branch_v3`. Co się stało?
-  6. Przełącz się na `rerere_feature_branch_v4`.Sprawdź ostatni commit. Wykonaj merge z `rerere_core_branch` do `rerere_feature_branch_v4`. Co się stało?
-
-Warto zwrócić uwagę na komunikaty:
-
-* Recorded preimage for 'README.md'
-* Recorded resolution for 'README.md'.
-* Resolved 'README.md' using previous resolution.
 
 ## BUNDLE
 
@@ -86,6 +103,6 @@ Jeżeli w którymkolwiek momencie pomylisz się, skorzystaj z komendy `git bisec
 
 Zamiast ręcznie iterować się po commitach po kroku `3.` wykonaj `git bisect run /path-to-script/validate-five.sh`
 
- #### Rozwiązanie
+#### Rozwiązanie
 
 Powinien zostać znaleziony commit `3b10ea7027d684a65c4658f1caea2f9a33d9e6f6`
