@@ -532,6 +532,15 @@ W jakich sytuacjach __rebase__ wykryje konflikt?
 
 Git rebase jest tylko "aliasem" na wykonanie kilku cherry-pick'ów. Przy przenoszeniu poszczególnych commitów pojawią się konflikty w tych samych okolicznościach co w przypadku cherry-picka.
 
+## REFLOG
+
+Komenda `git reflog` lub `git log -g`. Wyświetla listę commitów, na które nasz branch lub HEAD wskazywał. Umożliwia znalezienie osieroconych commitów, które były przez nas wykorzystywane.
+
+* `git reflog master`
+* `git reflog` lub `git reflog HEAD`
+
+Aby cofnąć się do poprzedniego stanu na branchu master wystarczy wywołać: `git reset --hard master@{1}`
+
 ## CONFIG
 
 Dwa poziomy local i global.
@@ -558,18 +567,48 @@ Konfiguracja jest przechowywana w następujących plikach:
 
 ## IGNORE
 
-* __PRIVATE GLOBAL__ konfigurowalny przez `git config --global core.excludesfile /Users/pawel.warczynski/.gitignore_global`
-* __PROJECT__ .gitignore
-* __PRIVATE IN PROJECT__ .git/info/exclude - działa tylko dla nowo dodanych plików (nie uwzględnia tych które już są w indeksie)
+Umożliwia ustawienie, które pliki mają być ignorowane przez Git'a. Działa dla plików `untracked` (które jeszcze nie zostały dodane do indeksu).
 
-## REFLOG
+    .idea
+    *.iml
+    *.ipr
+    *.iws
+    build
+    out
+    classes
 
-Komenda `git reflog` lub `git log -g`. Wyświetla listę commitów, na które nasz branch lub HEAD wskazywał. Umożliwia znalezienie osieroconych commitów, które były przez nas wykorzystywane.
+* __Globalny dla wszystkich projektów__ plik ustawiony w konfiguracji glabalnej `git config --global core.excludesfile /Users/pawel.warczynski/.gitignore_global`
+* __Lokalny, wersjonowany wraz z projektem__ - w głównym katalogu projektu `.gitignore`
+* __Lokalny, prywatny__ w katalogu `.git/info/exclude` wewnątrz projektu
 
-* `git reflog master`
-* `git reflog` lub `git reflog HEAD`
+## ATTRIBUTES
 
-Aby cofnąć się do poprzedniego stanu na branchu master wystarczy wywołać: `git reset --hard master@{1}`
+Umożliwia ustawienie dodatkowych właściwości dla pojedyczńego lub wszystkich naszych projektów.
+
+    # Najpopularniejsze zastosowanie - w szczególności w projektach gdzie
+    # developerzy korzystają z różnych systemów operacyjnych.
+    # Dla plików php git automatycznie skonwertuje znak końca lini na CRLF.
+    *.php text eol=crlf
+
+    # Pliki o rozszerzeniu cdr mają być potraktowane jako binarne:
+    # - zostaną pominięte podczas konwersji znaku końca lini (CRLF)
+    # - podczas przygotowywania diff'a zostaną pominięte
+    *.cdr binary
+
+    # Jeżeli podczas mergowania pojawi się konflikt na pliku
+    # project.lock git automatycznie zastosuje strategie ours.
+    project.lock merge=ours
+
+    # Podczas pobierania/ustawiania/resetowania plików o rozszerzeniu txt
+    # git sprawdzi czy zawierają $Id$ i uzupełni go identyfikatorem wersji pliku.
+    *.txt ident
+
+    # Podczas eksportowania archiwum zostanie pominięty katalog config.
+    config/ export-ignore
+
+* __Globalny dla wszystkich projektów__ konfigurowalny przez `git config --global core.attributesfile /Users/pawel.warczynski/.gitignore_global`
+* __Lokalny, wersjonowany wraz z projektem__ - w głównym katalogu projektu `.gitattributes`
+* __Lokalny, prywatny__ w katalogu `.git/info/attributes` wewnątrz projektu
 
 ## DIRECTED ACYCLIC GRAPH
 
