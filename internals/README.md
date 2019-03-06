@@ -191,6 +191,61 @@ Pobierając nowe obiekty z serwera (remote) są one wysyłane jako paczka i zap
 
 Git podczas pakowanie korzysta z algorytmu szukania tzw. wysp (_delta island_). Przechowuje blisko siebie obiekty powiązane ze sobą. Tak aby usuwanie/dodawanie nowych obiektów nie wymagało przepakowywania dużych struktur danych.
 
+## INDEX
+
+#### Informacja o plikach i ich zawartościach
+
+Komenda `git ls-files -s` wyświetla uproszczone podsumowanie tego co znajduję się w indeksie.
+
+Normalny stan indeksu:
+
+    100644 8f2b2417591474ada1667a0338db599646e13f3f 0	README.md
+    100755 90507e668727e47003f10b2ba9cbb8d54976de86 0	five.js
+    100644 0209c10d29b15c8ffdd933ad4eec29bcef5b8d51 0	tests/five-test.js
+
+Podczas konfliktu:
+
+    100644 dc7691344c01eea8720d016f68b561fca2d7dd13 1	README.md
+    100644 8f2b2417591474ada1667a0338db599646e13f3f 2	README.md
+    100644 88bbc22028d8670731f1cfa96c6845fce8aa692c 3	README.md
+    100755 90507e668727e47003f10b2ba9cbb8d54976de86 0	five.js
+    100644 0209c10d29b15c8ffdd933ad4eec29bcef5b8d51 0	tests/five-test.js
+
+  * `100644` wykonywalność pliku `chmod +x` (zwykły `100644`, wykonywalny `100755`)
+  * `8f2b24175...` hash zawartości pliku (blob)
+  * trzecia kolumna `0` stan pliku. Jeżeli jesteśmy w trakcie mergowania git przechowuje wszystkie trzy wersje pliku, gdzie `1` - wspólny przodek, `2` - nasza wersja pliku, `3` - wersja którą mergujemy, `0` - plik bez konfliktów.
+  * `README.md` lub `tests/five-test.js` ścieżka do pliku
+
+#### Wykrywanie plików, które zostały zmienione
+
+Komenda `git ls-files --debug` wyświetla szczegółowe informacje przydatne podczas debugowania.
+
+    index.js
+      ctime: 1551775116:362297366
+      mtime: 1551775116:362297366
+      dev: 16777220	ino: 3752113
+      uid: 953813007	gid: 0
+      size: 38	flags: 0
+    logo.svg
+      ctime: 1551793943:991344426
+      mtime: 1551793943:991344426
+      dev: 16777220	ino: 3766431
+      uid: 953813007	gid: 0
+      size: 1501	flags: 0
+    package.json
+      ctime: 1551775116:362634159
+      mtime: 1551775116:362634159
+      dev: 16777220	ino: 3752115
+      uid: 953813007	gid: 0
+      size: 435	flags: 0
+
+* `ctime` - data ostatniej zmiany (change time). Data ta jest aktualizowana przy każdej zmianie atrybutów lub zawartości pliku.
+* `mtime` - data ostatniej modyfikacji (modification time). Data ta jest aktualizowana przy każdej zmianie zawartości plików.
+
+Atrybuty te są porównywane z tym co zostanie zwrócone przez system operacyjny. W przypadku systemów Unix/Linuks `stat -x PLIK`. Jeżeli data ostatniej modyfikacji pliku jest taka sama jak w indeksie - nie ma konieczności sprawdzania jego zawartości.
+
+Stworzony przez autorów bardzo techniczny i szczegółowy opis formatu danych w indeksie: https://github.com/git/git/blob/master/Documentation/technical/index-format.txt
+
 ## EMPTY DIRECTORY
 
 Git nie potrafi przechowywać pustych katalogów. Propozycja takiej funkcjonalności kilkakrotnie pojawiała się w dyskusjach wśród developerów Git'a. Przykładowo: rozpoczynamy nowy projekt i chcemy zaprojektować strukturę katalogów. Aby objeść ten problem programiści do pustych katalogów dodają tymczasowo plik `.gitkeep`.
