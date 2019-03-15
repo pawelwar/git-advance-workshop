@@ -143,16 +143,19 @@ Dlaczego tagi są jednocześnie obiektem i referencją?
 
 W jaki sposób git przechowuje opis _"This version includes..."_ podany podczas tworzenia tag'a?
 
-## Rozwiązanie
+#### Rozwiązanie
 
 https://git-scm.com/book/en/v2/Git-Basics-Tagging
 
 > Git supports two types of tags: lightweight and annotated.
 > A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit.
 
-__Lightweigh tag__ - standardowo utworzony tag (____) `git tag NAZWA HASH` jest referencją wskazującą __bezpośrednio__ na commit.
+__Lightweigh tag__ - jest to __bezpośrednia__ referencja na commit `git tag NAZWA HASH`. Byt bardzo podobny do brancha (ale nie modyfikowalny).
 
-__Annotated tag__ - istnieje możliwość stworzenia tag'a, który zawiera opis zmiany `git tag -m "this change introduce..." NAZWA HASH`.  W ten sposób utworzona referencja wskazuje na obiekt `tag` i dopiero ten obiekt wskazuje na commita.
+__Annotated tag__ - istnieje możliwość stworzenia tag'a zawierającego dodatkowe informacje. Nadal tworzona jest referencja ale tym razem wskazuje ona na __obiekt__ `tag`. Ten obiekt dopiero wskazuje na commita. Zawiera ona następujące dodatkowe informacje:
+  - opis zmiany `git tag -m "this change introduce..." NAZWA HASH`,
+  - date utworzenia,
+  - autora (tzw. `tagger name`).  
 
 ## GC
 
