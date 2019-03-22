@@ -563,7 +563,7 @@ Konfiguracja jest przechowywana w następujących plikach:
 
 #### alias
 
-- `git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"`
+- ```git config --global alias.lg "log --graph --pretty=format:'%C(yellow)%h%Creset - %s %Cgreen(%cr)%C(red)%d%Creset %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"```
 
 ## IGNORE
 
