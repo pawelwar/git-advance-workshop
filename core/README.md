@@ -221,7 +221,7 @@ Przydatne podejście relatywne (przedostatni commit HEAD~, dwa commity do tyłu 
 
 #### Zadanie 1
 
-Start: `git clean -fd && git checkout master && git branch -D feature/update-doc && git checkout -b feature/update-doc dfa4f7a`
+Start: `git clean -fd && git reset --hard && git checkout -b feature/update-doc dfa4f7a`
 
 Jak z dwóch ostatnich commitów zrobić jeden, korzystając tylko z `git reset` i `git commit`?
 
@@ -336,7 +336,7 @@ Przykładowo:
   * bazuje na wspólnym poprzedniku `git merge-base branchX master`
 * __ours__/__theirs__
 * __octopus__ - wykorzystywany gdy mergujemy trzy lub więcej branchy
-  * Przykład: http://git.cutebit.de/img/octomerge.png
+  * Przykład: [huge octomerge](https://raw.githubusercontent.com/pawelwar/git-advance-workshop/master/core/images/octomerge.png)
   * [ciekawostka] dyskusja o ocotmerge (66 parents) w kernelu linuxa, który "popsuł" narzędzie gitk: https://www.destroyallsoftware.com/blog/2017/the-biggest-and-weirdest-commits-in-linux-kernel-git-history. Do dyskusji włączyć się Linus Torvalds _"Christ, that's not an octopus, that's a Cthulhu merge"_.
 * subtree - mergujemy oddzielny projekt do naszego brancha jako podkatalog.
   * `git merge --squash -Xsubtree=rack --no-commit rack_branch`
