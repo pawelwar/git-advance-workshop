@@ -1,8 +1,7 @@
 ![workshop logo](logo.png)
 
-## Plan warsztatu
+## Notatki z warsztatu
 
-* Prezentacja
 * [Core](core/README.md)
 * [Remote](remote/README.md)
 * [Tools](tools/README.md)
