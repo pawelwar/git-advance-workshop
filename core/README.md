@@ -494,7 +494,7 @@ Czy można cherry-pick'ować commit mergujący?
 
 #### Zadanie
 
-Załóż branch `feature/clock-v2` wskazującego na commit `457f6b9`. Za pomocą `git cherry-pick bfcde98` skopiuj zmianę do swojego brancha.
+Załóż branch `feature/clock-v2` wskazującego na commit `457f6b9`. Przełączamy się na świeżo założonego brancha. Za pomocą `git cherry-pick bfcde98` skopiuj zmianę do swojego brancha.
 
 * Kto jest autorem commita?
 * Kto jest commiterem commita?
