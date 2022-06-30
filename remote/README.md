@@ -6,6 +6,7 @@ Lokalne repozytorium może być podłączone do wielu zdalnych.
 
 * `git remote -vv` wyświetla listę podłączonych zdalnie serwerów
 * `git remote add KAMIL git://109.12.23.124/five` dodaje nowy serwer (remote) o nazwie KAMIL.
+* `git remote remove KAMIL` usuwa remote o nazwie KAMIL.
 
 Podczas `git clone` serwer, z którego pobieramy repozytorium, zostanie automatycznie dodany jako `origin`.
 

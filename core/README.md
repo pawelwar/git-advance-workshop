@@ -63,6 +63,7 @@ Komenda przechodzi po commitach i je wyświetla. Kolejny krok to commity wskazan
 #### Przydatny alias
 
 `git config --global alias.lg "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"`
+`git config --global alias.lgg "log --graph --pretty=format:'%C(yellow)%h%Creset - %s %Cgreen(%ci)%C(red)%d%Creset %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"`
 
 #### Zadanie 1
 
