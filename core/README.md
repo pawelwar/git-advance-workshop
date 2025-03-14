@@ -29,7 +29,7 @@ committer Joe Warren <Joezo@users.noreply.github.com> 1500655370 +0100
 * Opis zmiany
 
 Commit z założenia jest niemodyfikowalny i jego integralności pilnuje Id (funkcja skrótu sha1)
-
+<div style="page-break-after: always;"></div>
 ## LOG
 
 Składnia `git log COMMIT`. W przypadku kiedy zostanie przekazana referencja (np. `git log BRANCH_NAME`) zostanie użyty commit, na który ta referencja wskazuje. Wywołanie `git log` wykona `git log HEAD`.
@@ -86,7 +86,7 @@ W jaki sposób dojść z `01541a9` do `e2e7a6b`?
 - `git show master~2^2~4`
 - lub `git lg master~2^2~4`
 - lub `git lg 01541a9~2^2~4`
-
+<div style="page-break-after: always;"></div>
 ## DESCRIBE
 
 Komenda `git describe COMMIT` zwraca alternatywny identyfikator commita.
