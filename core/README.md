@@ -468,7 +468,6 @@ Za pomocą `git rebase -i` połącz w jeden commit wspomniane zmiany. Nazwij com
 1. `git checkout 6ef3b3c`
 2. `git rebase -i d612e38`
 
-
     r 3c3a7fd Update five.js
     f 6463334 Update test.js
     f 2ccab8c Update five.js
