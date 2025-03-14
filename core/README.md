@@ -443,7 +443,7 @@ Uwaga: całość można zrobić bez tworzenia i przełączania się na branche.
 2. `git rebase -i d612e38`
 
 #### Rozwiązanie
-
+```
     # five.js
     pick 3c3a7fd Update five.js
     f 2ccab8c Update five.js
@@ -454,7 +454,7 @@ Uwaga: całość można zrobić bez tworzenia i przełączania się na branche.
     fk 6ef3b3c Update test.js
     # README.md
     pick bda38c9 Update README.md
-
+```
 #### Zadanie 2
 
 Przejrzymy zmiany w utworzonych przez nas (za pomocą `git rebase -i`) commitach. `git diff HEAD~3..HEAD` lub `git diff d612e38..HEAD`.
@@ -468,6 +468,7 @@ Za pomocą `git rebase -i` połącz w jeden commit wspomniane zmiany. Nazwij com
 1. `git checkout 6ef3b3c`
 2. `git rebase -i d612e38`
 
+```
     r 3c3a7fd Update five.js
     f 6463334 Update test.js
     f 2ccab8c Update five.js
@@ -475,6 +476,7 @@ Za pomocą `git rebase -i` połącz w jeden commit wspomniane zmiany. Nazwij com
     f bda38c9 Update README.md
     f 674171e Update five.js
     f 6ef3b3c Update test.js
+```
 
 #### Dyskusja
 
