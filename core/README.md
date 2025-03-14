@@ -444,16 +444,18 @@ Uwaga: całość można zrobić bez tworzenia i przełączania się na branche.
 
 #### Rozwiązanie
 ```
-    # five.js
-    pick 3c3a7fd Update five.js
-    f 2ccab8c Update five.js
-    f 674171e Update five.js
-    # test.js
-    pick 6463334 Update test.js
-    f cbdd11f fix tests
-    fk 6ef3b3c Update test.js
-    # README.md
-    pick bda38c9 Update README.md
+# five.js
+pick 3c3a7fd Update five.js
+f 2ccab8c Update five.js
+f 674171e Update five.js
+
+# test.js
+pick 6463334 Update test.js
+f cbdd11f fix tests
+fk 6ef3b3c Update test.js
+
+# README.md
+pick bda38c9 Update README.md
 ```
 #### Zadanie 2
 
@@ -469,13 +471,13 @@ Za pomocą `git rebase -i` połącz w jeden commit wspomniane zmiany. Nazwij com
 2. `git rebase -i d612e38`
 
 ```
-    r 3c3a7fd Update five.js
-    f 6463334 Update test.js
-    f 2ccab8c Update five.js
-    f cbdd11f fix tests
-    f bda38c9 Update README.md
-    f 674171e Update five.js
-    f 6ef3b3c Update test.js
+r 3c3a7fd Update five.js
+f 6463334 Update test.js
+f 2ccab8c Update five.js
+f cbdd11f fix tests
+f bda38c9 Update README.md
+f 674171e Update five.js
+f 6ef3b3c Update test.js
 ```
 
 #### Dyskusja
